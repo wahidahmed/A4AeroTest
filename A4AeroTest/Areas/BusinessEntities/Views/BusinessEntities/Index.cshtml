@@ -1,0 +1,161 @@
+﻿@model BusinessEntitiesViewModel
+
+@{
+    ViewData["Title"] = "BusinessEntities";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+        <h5 class="card-title" style="color: black">Business</h5>
+        <hr>
+        <form asp-area="BusinessEntities" asp-controller="BusinessEntities" asp-action="Index" method="post">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div asp-validation-summary="All" class="text-danger">
+                        <input type="hidden"id="id" name="Id" value="0">
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Code" class="col-md-3"></label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" name="Code" id="code" readonly />
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Name" class="col-md-3"></label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" name="Name" id="Name"/>
+                            <span asp-validation-for="Name"class="text-danger"></span>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Email" class="col-md-3"></label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" name="Email" id="Email" />
+                            <span asp-validation-for="Email"class="text-danger"></span>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Mobile" class="col-md-3"></label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" name="Mobile" id="Mobile"/>
+                            <span asp-validation-for="Mobile"class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Phone" class="col-md-3"></label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" name="Phone" id="Phone"/>
+                            <span asp-validation-for="Phone"class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Street" class="col-md-3"></label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" name="Street" id="Street"/>
+                            <span asp-validation-for="Street"class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label asp-for="City" class="col-md-3"></label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" name="City" id="City" />
+                            <span asp-validation-for="City"class="text-danger"></span>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="State" class="col-md-3"></label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" name="State" id="State" />
+                            <span asp-validation-for="State"class="text-danger"></span>
+                            <hr>
+                            <button type="submit" value="Submit" class="btn btn-success btn-lg" style="float:right; margin-top:5px;"><i class="fas fa-save"></i></button>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            GetAutoCode()
+
+            if (@ViewBag.id> 0) {
+                GetById(@ViewBag.id)
+            }
+        })
+
+        function GetAutoCode() {
+
+            $.ajax({
+                method:"GET",
+                url: '@Url.Action("GetAutoCode")',
+                async: false,
+                data: {},
+                success: (function (data) {
+                    $("#code").val(data);
+                }),
+                error: (function () {
+
+                })
+
+            })
+
+        }
+
+        function GetById(id) {
+
+            $.ajax({
+                method:"GET",
+                url: '@Url.Action("GetById")',
+                async: false,
+                data: {id:id},
+                success: (function (data) {
+                    console.log(data.id);
+                    $("#id").val(data.id);
+                    $("#code").val(data.code);
+                    $("#Name").val(data.name);
+                    $("#Email").val(data.email);
+                    $("#Mobile").val(data.mobile);
+                    $("#Phone").val(data.phone);
+                    $("#Street").val(data.street);
+                    $("#City").val(data.city);
+                    $("#State").val(data.state);
+                }),
+                error: (function () {
+
+                })
+
+            })
+
+        }
+
+    </script>
+}
+

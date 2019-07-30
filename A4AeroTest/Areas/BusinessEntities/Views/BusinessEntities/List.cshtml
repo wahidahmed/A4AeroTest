@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewData["Title"] = "List";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+        <h5 class="card-title" style="color: black">Business List</h5>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped" id="tblList">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            GetAll();
+        })
+
+        function GetAll() {
+            var tbleBody = $("#tblList tbody");
+            $("#tblList tbody tr").remove();
+            $.ajax({
+                method: "GET",
+                url: '@Url.Action("GetAll")',
+                async: false,
+                data: {},
+                success: function (data) {
+                    console.log(data);
+                    $.each(data, function (index, value) {
+                        tbleBody.append('<tr><td>' + value.code + '</td><td>' + value.name + '</td><td>' + value.mobile + '</td><td>' + value.email + '</td><td><a class="btn btn-success" href="/BusinessEntities/BusinessEntities/Index/' + value.id + '"><i class="fa fa-edit"></i></a><a class="btn btn-danger" href="javascript:void(0)"onclick="Delete(' + value.id+')"><i class="fa fa-trash"></i></a></td></tr>')
+                    })
+                }
+            })
+        }
+
+
+        function Delete(id) {
+            $.ajax({
+                method: "POST",
+                url: '@Url.Action("Delete")',
+                async: false,
+                data: { id: id },
+                success: (function (data) {
+                    alert("Deleted!!!!");
+                    GetAll();
+                }),
+                error: (function (data) {
+                    alert("Falied to Delete!!!!")
+                })
+            })
+        }
+    </script>
+}
+
