@@ -32,11 +32,10 @@ namespace A4AeroTest.Areas.BusinessEntities.Controllers
         }
 
 
-        public async Task<IActionResult> List()
+        public  IActionResult List()
         {
-
-            var result= await businessEntitiesService.GetAll();
-            return View(result);
+            
+            return View();
         }
 
         public async Task<IActionResult> GetAll()
